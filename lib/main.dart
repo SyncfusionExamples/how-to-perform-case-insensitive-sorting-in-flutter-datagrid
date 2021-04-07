@@ -36,77 +36,81 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Syncfusion Flutter DataGrid'),
-        ),
-        body: SfDataGrid(
-          allowSorting: true,
-          source: _employeeDataSource,
-          columns: <GridColumn>[
-            GridTextColumn(
-                columnName: 'id',
-                label: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'ID',
-                    ))),
-            GridTextColumn(
-                columnName: 'name',
-                label: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    alignment: Alignment.center,
-                    child: Text('Name'))),
-            GridTextColumn(
-                columnName: 'designation',
-                label: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Designation',
-                      overflow: TextOverflow.ellipsis,
-                    ))),
-            GridTextColumn(
-                columnName: 'salary',
-                label: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    alignment: Alignment.center,
-                    child: Text('Salary'))),
-          ],
-        ));
+      appBar: AppBar(
+        title: const Text('Syncfusion Flutter DataGrid'),
+      ),
+      body: SfDataGrid(
+        source: _employeeDataSource,
+        allowSorting: true,
+        columns: <GridColumn>[
+          GridTextColumn(
+              columnName: 'id',
+              label: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'ID',
+                  ))),
+          GridTextColumn(
+              columnName: 'name',
+              label: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Name',
+                  ))),
+          GridTextColumn(
+              columnName: 'city',
+              width: 110,
+              label: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'City',
+                    overflow: TextOverflow.ellipsis,
+                  ))),
+          GridTextColumn(
+              columnName: 'Freight',
+              label: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  alignment: Alignment.centerRight,
+                  child: Text('Freight'))),
+        ],
+      ),
+    );
   }
 
   List<Employee> populateData() {
     return <Employee>[
-      Employee(10001, 'James', 'Project Lead', 20000),
-      Employee(10002, 'Kathryn', 'Manager', 30000),
-      Employee(10003, 'Lara', 'Developer', 15000),
-      Employee(10004, 'Michael', 'Designer', 15000),
-      Employee(10005, 'martin', 'Developer', 15000),
-      Employee(10006, 'newberry', 'Developer', 15000),
-      Employee(10007, 'Balnc', 'Developer', 15000),
-      Employee(10008, 'Perry', 'Developer', 15000),
-      Employee(10009, 'Gable', 'Developer', 15000),
-      Employee(10010, 'grimes', 'Developer', 15000),
-      Employee(10011, 'Lara', 'Developer', 15000),
-      Employee(10012, 'Michael', 'Designer', 15000),
-      Employee(10013, 'martin', 'Developer', 15000),
-      Employee(10014, 'newberry', 'Developer', 15000),
-      Employee(10015, 'Balnc', 'Developer', 15000),
+      Employee(10001, 'James', 'Bruxelles', 20000),
+      Employee(10002, 'Kathryn', 'Rosario', 30000),
+      Employee(10003, 'Lara', 'Recife', 15000),
+      Employee(10004, 'Michael', 'Graz', 15000),
+      Employee(10005, 'Martin', 'Montreal', 15000),
+      Employee(10006, 'Newberry', 'Tsawassen', 15000),
+      Employee(10007, 'Balnc', 'Campinas', 15000),
+      Employee(10008, 'Perry', 'Resende', 15000),
+      Employee(10009, 'Gable', 'Resende', 15000),
+      Employee(10010, 'Grimes', 'Recife', 15000),
+      Employee(10011, 'Newberry', 'Tsawassen', 15000),
+      Employee(10012, 'Balnc', 'Campinas', 15000),
+      Employee(10013, 'Perry', 'Resende', 15000),
+      Employee(10014, 'Gable', 'Resende', 15000),
+      Employee(10015, 'Grimes', 'Recife', 15000),
     ];
   }
 }
 
 class Employee {
-  Employee(this.id, this.name, this.designation, this.salary);
+  Employee(this.id, this.name, this.city, this.freight);
 
   final int id;
 
   final String name;
 
-  final String designation;
+  final String city;
 
-  final int salary;
+  final int freight;
 }
 
 class EmployeeDataSource extends DataGridSource {
@@ -115,9 +119,8 @@ class EmployeeDataSource extends DataGridSource {
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell<int>(columnName: 'id', value: e.id),
               DataGridCell<String>(columnName: 'name', value: e.name),
-              DataGridCell<String>(
-                  columnName: 'designation', value: e.designation),
-              DataGridCell<int>(columnName: 'salary', value: e.salary),
+              DataGridCell<String>(columnName: 'city', value: e.city),
+              DataGridCell<int>(columnName: 'freight', value: e.freight),
             ]))
         .toList();
   }
@@ -132,7 +135,9 @@ class EmployeeDataSource extends DataGridSource {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((e) {
       return Container(
-        alignment: Alignment.center,
+        alignment: ['id', 'freight'].contains(e.columnName)
+            ? Alignment.centerRight
+            : Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Text(e.value.toString()),
       );
