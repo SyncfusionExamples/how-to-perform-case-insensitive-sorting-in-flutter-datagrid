@@ -131,7 +131,7 @@ class EmployeeDataSource extends DataGridSource {
   List<DataGridRow> get rows => _employeeData;
 
   @override
-  DataGridRowAdapter buildRow(DataGridRow row) {
+  DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((e) {
       return Container(
